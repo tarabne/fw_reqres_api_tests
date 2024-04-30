@@ -51,6 +51,7 @@ public class UserTests extends BaseTest {
                         .spec(notFoundResponseSpec));
     }
 
+
     @Test
     @DisplayName("Обновление пользователя целиком")
     @Severity(SeverityLevel.NORMAL)
