@@ -25,30 +25,30 @@ public class UserTests extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     void checkUserInfoByIdTest() {
         GetUserResponseModel response = step("Make request", () ->
-            given(getRequestSpec)
-            .when()
-                .get("/users/12")
-            .then()
-                .spec(loginResponseSpec)
-                .body(matchesJsonSchemaInClasspath("schemas/user-response-schema.json"))
-                .extract().as(GetUserResponseModel.class));
+                given(getRequestSpec)
+                        .when()
+                        .get("/users/12")
+                        .then()
+                        .spec(loginResponseSpec)
+                        .body(matchesJsonSchemaInClasspath("schemas/user-response-schema.json"))
+                        .extract().as(GetUserResponseModel.class));
         step("Check response", () ->
                 assertAll("Check response values",
-                () -> assertThat(response.getData().getId(), is(12)),
-                () -> assertThat(response.getData().getFirstName(), is("Rachel")),
-                () -> assertThat(response.getData().getLastName(), is("Howell"))));
+                        () -> assertThat(response.getData().getId(), is(12)),
+                        () -> assertThat(response.getData().getFirstName(), is("Rachel")),
+                        () -> assertThat(response.getData().getLastName(), is("Howell"))));
     }
 
     @Test
     @DisplayName("Получение несуществующего пользователя")
     @Severity(SeverityLevel.MINOR)
     void getNonexistentUserTest() {
-            step("Make request", () ->
-            given(getRequestSpec)
-            .when()
-                .get("/users/333")
-            .then()
-                .spec(notFoundResponseSpec));
+        step("Make request", () ->
+                given(getRequestSpec)
+                        .when()
+                        .get("/users/333")
+                        .then()
+                        .spec(notFoundResponseSpec));
     }
 
     @Test
@@ -63,19 +63,19 @@ public class UserTests extends BaseTest {
         userData.setJob(job);
 
         UpdateUserModel response = step("Make request", () ->
-            given(postRequestSpec)
-                .body(userData)
-            .when()
-                .put("/users/2")
-            .then()
-                .spec(loginResponseSpec)
-                .body(matchesJsonSchemaInClasspath("schemas/success-update-schema.json"))
-                .extract().as(UpdateUserModel.class));
+                given(postRequestSpec)
+                        .body(userData)
+                        .when()
+                        .put("/users/2")
+                        .then()
+                        .spec(loginResponseSpec)
+                        .body(matchesJsonSchemaInClasspath("schemas/success-update-schema.json"))
+                        .extract().as(UpdateUserModel.class));
         step("Check response", () ->
                 assertAll("Check response",
-                () -> assertThat(response.getName(), equalTo(name)),
-                () -> assertThat(response.getJob(), equalTo(job)),
-                () -> assertThat(response.getUpdatedAt(), notNullValue())));
+                        () -> assertThat(response.getName(), equalTo(name)),
+                        () -> assertThat(response.getJob(), equalTo(job)),
+                        () -> assertThat(response.getUpdatedAt(), notNullValue())));
     }
 
     @Test
@@ -88,18 +88,18 @@ public class UserTests extends BaseTest {
         userData.setJob(job);
 
         UpdateUserModel response = step("Make request", () ->
-            given(postRequestSpec)
-                .body(userData)
-            .when()
-                .patch("/users/2")
-            .then()
-                .spec(loginResponseSpec)
-                .body(matchesJsonSchemaInClasspath("schemas/success-update-schema.json"))
-                .extract().as(UpdateUserModel.class));
+                given(postRequestSpec)
+                        .body(userData)
+                        .when()
+                        .patch("/users/2")
+                        .then()
+                        .spec(loginResponseSpec)
+                        .body(matchesJsonSchemaInClasspath("schemas/success-update-schema.json"))
+                        .extract().as(UpdateUserModel.class));
         step("Check response", () ->
                 assertAll("Check response",
-                () -> assertThat(response.getJob(), equalTo(job)),
-                () -> assertThat(response.getUpdatedAt(), notNullValue())));
+                        () -> assertThat(response.getJob(), equalTo(job)),
+                        () -> assertThat(response.getUpdatedAt(), notNullValue())));
     }
 
     @Test
