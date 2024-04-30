@@ -1,5 +1,6 @@
-package ru.tarabne.models.lombok;
+package ru.tarabne.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
@@ -10,7 +11,11 @@ public class GetUserResponseModel {
     @Data
     public static class UserData {
         int id;
-        String email, first_name, last_name, avatar;
+        String email, avatar;
+        @JsonProperty("first_name")
+        String firstName;
+        @JsonProperty("last_name")
+        String lastName;
     }
 
     @Data

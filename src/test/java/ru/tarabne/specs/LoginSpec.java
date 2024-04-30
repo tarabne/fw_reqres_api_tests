@@ -58,4 +58,10 @@ public class LoginSpec {
             .log(STATUS)
             .build();
 
+    public static ResponseSpecification successDeleteResponseSpec = new ResponseSpecBuilder()
+            .expectStatusCode(204)
+            .log(HEADERS)
+            .log(BODY)
+            .log(STATUS)
+            .build();
 }

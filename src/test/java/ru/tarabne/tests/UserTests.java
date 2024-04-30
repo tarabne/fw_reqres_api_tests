@@ -1,10 +1,10 @@
 package ru.tarabne.tests;
 
+import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.tarabne.models.lombok.*;
-
-import java.util.Optional;
+import ru.tarabne.models.GetUserResponseModel;
+import ru.tarabne.models.UpdateUserModel;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
@@ -14,10 +14,15 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.tarabne.specs.LoginSpec.*;
 
-public class LoginApiWithModelHWTests extends TestBase {
+@DisplayName("Тесты на список пользователей")
+@Owner("tarabne")
+@Story("Список пользователей")
+@Feature("API | CRUD операции над пользователем")
+public class UserTests extends BaseTest {
 
     @Test
     @DisplayName("Проверка корректности данных у пользователя по id")
+    @Severity(SeverityLevel.CRITICAL)
     void checkUserInfoByIdTest() {
         GetUserResponseModel response = step("Make request", () ->
             given(getRequestSpec)
@@ -30,13 +35,13 @@ public class LoginApiWithModelHWTests extends TestBase {
         step("Check response", () ->
                 assertAll("Check response values",
                 () -> assertThat(response.getData().getId(), is(12)),
-                () -> assertThat(response.getData().getFirst_name(), is("Rachel")),
-                () -> assertThat(response.getData().getLast_name(), is("Howell"))));
-
+                () -> assertThat(response.getData().getFirstName(), is("Rachel")),
+                () -> assertThat(response.getData().getLastName(), is("Howell"))));
     }
 
     @Test
     @DisplayName("Получение несуществующего пользователя")
+    @Severity(SeverityLevel.MINOR)
     void getNonexistentUserTest() {
             step("Make request", () ->
             given(getRequestSpec)
@@ -47,43 +52,17 @@ public class LoginApiWithModelHWTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Проверка регистрации с заполнением email и пароля")
-    void successfulRegistrationTest() {
-        String email = "mikhail.petrovich@reqres.in";
-        String password = "пароль";
-
-        RegistrationRequestModel registrationData = new RegistrationRequestModel();
-        registrationData.setEmail(email);
-        registrationData.setPassword(password);
-
-        RegistrationResponseModel response = step("Make request", () ->
-            given(postRequestSpec)
-                .body(registrationData)
-            .when()
-                .post("/api/register")
-            .then()
-                .spec(registrationResponseSpec)
-                .body(matchesJsonSchemaInClasspath("schemas/success-registration-schema.json"))
-                .extract().as(RegistrationResponseModel.class));
-        step("Check response", () ->
-                assertAll("Check response",
-                () -> assertThat(response.getEmail(), equalTo(email)),
-                () -> assertThat(response.getPassword(), equalTo(password)),
-                () -> assertThat(response.getId(), notNullValue()),
-                () -> assertThat(response.getCreatedAt(), notNullValue())));
-    }
-
-    @Test
     @DisplayName("Обновление пользователя целиком")
+    @Severity(SeverityLevel.NORMAL)
     void fullUserUpdateTest() {
         String name = "morpheus111";
         String job = "zion resident111";
 
-        UpdateUserRequestModel userData = new UpdateUserRequestModel();
+        UpdateUserModel userData = new UpdateUserModel();
         userData.setName(name);
         userData.setJob(job);
 
-        UpdateUserResponseModel response = step("Make request", () ->
+        UpdateUserModel response = step("Make request", () ->
             given(postRequestSpec)
                 .body(userData)
             .when()
@@ -91,7 +70,7 @@ public class LoginApiWithModelHWTests extends TestBase {
             .then()
                 .spec(loginResponseSpec)
                 .body(matchesJsonSchemaInClasspath("schemas/success-update-schema.json"))
-                .extract().as(UpdateUserResponseModel.class));
+                .extract().as(UpdateUserModel.class));
         step("Check response", () ->
                 assertAll("Check response",
                 () -> assertThat(response.getName(), equalTo(name)),
@@ -101,13 +80,14 @@ public class LoginApiWithModelHWTests extends TestBase {
 
     @Test
     @DisplayName("Частичное обновление пользователя")
+    @Severity(SeverityLevel.NORMAL)
     void partialUserUpdateTest() {
         String job = "zion resident111";
 
-        UpdateUserRequestModel userData = new UpdateUserRequestModel();
+        UpdateUserModel userData = new UpdateUserModel();
         userData.setJob(job);
 
-        UpdateUserResponseModel response = step("Make request", () ->
+        UpdateUserModel response = step("Make request", () ->
             given(postRequestSpec)
                 .body(userData)
             .when()
@@ -115,7 +95,7 @@ public class LoginApiWithModelHWTests extends TestBase {
             .then()
                 .spec(loginResponseSpec)
                 .body(matchesJsonSchemaInClasspath("schemas/success-update-schema.json"))
-                .extract().as(UpdateUserResponseModel.class));
+                .extract().as(UpdateUserModel.class));
         step("Check response", () ->
                 assertAll("Check response",
                 () -> assertThat(response.getJob(), equalTo(job)),
@@ -123,26 +103,14 @@ public class LoginApiWithModelHWTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Проверка названия цвета по id в списке цветов")
-    void checkNameInListByIdTest() {
-        String color = "tigerlily";
-        UnknownResponseModel response = step("Make request", () ->
-            given(getRequestSpec)
-            .when()
-                .get("/unknown")
-            .then()
-                .spec(loginResponseSpec)
-                .body(matchesJsonSchemaInClasspath("schemas/unknown-response-schema.json"))
-                .extract().as(UnknownResponseModel.class));
-
-        Optional<String> colorName = response.getData().stream()
-                .filter(colorData -> colorData.getId() == 5)
-                .map(UnknownResponseModel.ColorData::getName)
-                .findFirst();
-        step("Check response", () ->
-                assertAll("Check response",
-                () -> assertTrue(colorName.isPresent()),
-                () -> assertEquals(color, colorName.get())));
-
+    @DisplayName("Удаление пользователя")
+    @Severity(SeverityLevel.CRITICAL)
+    void userDeletionTest() {
+        step("Make request", () ->
+                given(getRequestSpec)
+                        .when()
+                        .delete("/users/2")
+                        .then()
+                        .spec(successDeleteResponseSpec));
     }
 }
