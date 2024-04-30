@@ -12,7 +12,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.tarabne.specs.LoginSpec.*;
+import static ru.tarabne.specs.ReqresSpec.*;
 
 @DisplayName("Тесты на список пользователей")
 @Owner("tarabne")

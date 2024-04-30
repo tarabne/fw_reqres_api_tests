@@ -2,7 +2,6 @@ package ru.tarabne.tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.tarabne.models.UnknownResponseModel;
@@ -13,8 +12,8 @@ import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.tarabne.specs.LoginSpec.getRequestSpec;
-import static ru.tarabne.specs.LoginSpec.loginResponseSpec;
+import static ru.tarabne.specs.ReqresSpec.getRequestSpec;
+import static ru.tarabne.specs.ReqresSpec.loginResponseSpec;
 
 @DisplayName("Тесты на список цветов")
 @Owner("tarabne")

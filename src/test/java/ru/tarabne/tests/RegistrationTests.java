@@ -12,8 +12,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static ru.tarabne.specs.LoginSpec.postRequestSpec;
-import static ru.tarabne.specs.LoginSpec.registrationResponseSpec;
+import static ru.tarabne.specs.ReqresSpec.postRequestSpec;
+import static ru.tarabne.specs.ReqresSpec.registrationResponseSpec;
 
 @DisplayName("Тесты на регистрацию")
 @Owner("tarabne")
