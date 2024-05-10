@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static ru.tarabne.specs.ReqresSpec.postRequestSpec;
-import static ru.tarabne.specs.ReqresSpec.registrationResponseSpec;
+import static ru.tarabne.specs.ReqresSpec.loggingSpec;
 
 @DisplayName("Тесты на регистрацию")
 @Owner("tarabne")
@@ -37,7 +37,9 @@ public class RegistrationTests extends BaseTest {
                         .when()
                         .post("/api/register")
                         .then()
-                        .spec(registrationResponseSpec)
+                        .assertThat()
+                        .statusCode(201)
+                        .spec(loggingSpec)
                         .body(matchesJsonSchemaInClasspath("schemas/success-registration-schema.json"))
                         .extract().as(RegistrationModel.class));
         step("Check response", () ->

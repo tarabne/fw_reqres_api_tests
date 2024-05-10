@@ -48,7 +48,9 @@ public class UserTests extends BaseTest {
                         .when()
                         .get("/users/333")
                         .then()
-                        .spec(notFoundResponseSpec));
+                        .assertThat()
+                        .statusCode(404)
+                        .spec(loggingSpec));
     }
 
     @Test
@@ -111,6 +113,8 @@ public class UserTests extends BaseTest {
                         .when()
                         .delete("/users/2")
                         .then()
-                        .spec(successDeleteResponseSpec));
+                        .assertThat()
+                        .statusCode(204)
+                        .spec(loggingSpec));
     }
 }

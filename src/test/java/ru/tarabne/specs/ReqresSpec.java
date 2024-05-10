@@ -29,23 +29,8 @@ public class ReqresSpec {
             .log(BODY)
             .build();
 
-    public static ResponseSpecification registrationResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(201)
+    public static ResponseSpecification loggingSpec = new ResponseSpecBuilder()
             .log(STATUS)
             .log(BODY)
-            .build();
-
-
-    public static ResponseSpecification notFoundResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(404)
-            .log(BODY)
-            .log(STATUS)
-            .build();
-
-    public static ResponseSpecification successDeleteResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(204)
-            .log(HEADERS)
-            .log(BODY)
-            .log(STATUS)
             .build();
 }
